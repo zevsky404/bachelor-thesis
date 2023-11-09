@@ -1,0 +1,20 @@
+{
+  "name": "thread-visualisation",
+  "version": "1.0.0",
+  "description": "First visualisation of the delta threads of the dataset",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests available for this project\" && exit 1",
+    "prestart": "npx tailwindcss -i ./input.css -o ./dist/tailwind_styles.css --watch",
+    "start": "snowpack dev"
+  },
+  "author": "Chris",
+  "license": "ISC",
+  "devDependencies": {
+    "snowpack": "^3.8.8",
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "d3": "^7.8.5"
+  }
+}
