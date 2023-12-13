@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>r/ChangeMyView Visualisation</title>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="src/js/index.js"></script>
     <link href="dist/tailwind_styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="h-screen" id="main-container">
-    </div>
+<aside class="mr-0 p-6 sm:w-60 bg-gray-900 text-gray-100 h-screen">
+    <nav class="space-y-8 text-sm">
+        <div class="space-y-2">
+            <h2 class="text-sm font-semibold tracki uppercase text-gray-400">Getting Started</h2>
+            <div class="flex flex-col space-y-1">
+                <a rel="noopener noreferrer" href="#">Installation</a>
+                <a rel="noopener noreferrer" href="#">Plugins</a>
+                <a rel="noopener noreferrer" href="#">Migrations</a>
+                <a rel="noopener noreferrer" href="#">Appearance</a>
+                <a rel="noopener noreferrer" href="#">Mamba UI</a>
+            </div>
+        </div>
+    </nav>
+</aside>
+
+<div class="ml-auto" id="main-container"></div>
 
 </body>
 </html>

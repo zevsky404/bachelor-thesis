@@ -21,8 +21,39 @@ function reducePreds(predsList) {
     for (let aduType of predsList) {
         predsString += aduType.entity[0];
     }
-
     return predsString
+}
+
+function buildNodeWindow(pageXY, nodeAdus) {
+    let popup = document.createElement("div");
+    popup.className = "adu-popup";
+    popup.style.background = "white";
+    popup.style.opacity = "1";
+    popup.style.border = "0.5px solid black";
+    popup.style.borderRadius = "1px";
+    popup.style.padding = "2px";
+    popup.style.paddingRight = "3.5px";
+    popup.style.position = "absolute";
+    popup.style.fontSize = "5px";
+    popup.style.left = `${pageXY[0] + 5}px`;
+    popup.style.top = `${pageXY[1] + 5}px`;
+    popup.innerText = nodeAdus;
+
+    let close = document.createElement("div");
+    close.style.width = "2px";
+    close.style.height = "2px";
+    close.style.background = "red";
+    close.style.position = "absolute";
+    close.style.right = "1px";
+    close.style.top = "1px";
+
+    close.addEventListener("click", function (event) {
+        event.target.parentNode.style.display = "none";
+    });
+
+    popup.appendChild(close);
+
+    return popup;
 }
 
 // ENTRY
@@ -66,7 +97,7 @@ getData.then((data) => {
                     : " node-leaf ") + d.id)
                 .attr("transform", d => `translate(${d.x}, ${d.y})`)
                 .attr("adu-types", d => reducePreds(d.data.preds))
-                .on("click", nodeMouseover);
+                .on("click", nodeClick);
 
 
         node.append("circle")
@@ -86,35 +117,15 @@ getData.then((data) => {
 
         node.raise();
 
-
         let main = document.getElementById('main-container');
         main.appendChild(svg.node())
     }
 
-    let arguLineHover = d3.select("#main-container")
-        .append("div")
-        .style("display", "none")
-        .attr("class", "arguline-hover")
-        .style("background-color", "white")
-        .style("opacity", 1)
-        .style("border", "solid")
-        .style("border-width", "0.5px")
-        .style("border-radius", "1px")
-        .style("padding", "5px");
+    const nodeClick = function(hoverEvent) {
+        let popup = buildNodeWindow([hoverEvent.pageX, hoverEvent.pageY],
+            this.getAttribute("adu-types"));
 
-    const nodeMouseover = function(hoverEvent) {
-        console.log(this)
-        if (arguLineHover.style("display") === "none") {
-            arguLineHover.style("display", "block");
-        } else if (arguLineHover.style("display") === "block") {
-            arguLineHover.style("display", "none");
-        }
-
-        arguLineHover.style("left", hoverEvent.x + 5 + "px")
-            .style("top", hoverEvent.y + 5 + "px")
-            .style("position", "absolute")
-            .style("font-size", "5px")
-            .html(this.getAttribute("adu-types"));
+        document.querySelector("#main-container").appendChild(popup);
     }
 
 
