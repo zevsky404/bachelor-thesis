@@ -1,29 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>r/ChangeMyView Visualisation</title>
-    <script type="module" src="src/js/index.js"></script>
+    <script type="module" src="src/js/thread-drawing.js"></script>
+    <script type="module" src="src/js/tools.js"></script>
     <link href="dist/tailwind_styles.css" rel="stylesheet">
 </head>
-<body>
-<aside class="mr-0 p-6 sm:w-60 bg-gray-900 text-gray-100 h-screen">
+<body class="flex max-h-screen">
+<div class="inline-block p-6 min-w-0 sm:w-60 bg-gray-900 text-gray-100 h-screen" style="min-width: 250px;">
     <nav class="space-y-8 text-sm">
         <div class="space-y-2">
-            <h2 class="text-sm font-semibold tracki uppercase text-gray-400">Getting Started</h2>
-            <div class="flex flex-col space-y-1">
-                <a rel="noopener noreferrer" href="#">Installation</a>
-                <a rel="noopener noreferrer" href="#">Plugins</a>
+            <h2 class="text-xl font-semibold tracki uppercase text-gray-400">Tools</h2>
+            <div class="flex flex-col space-y-2 text-lg">
+                <div class="border-b">
+                    <a rel="noopener noreferrer" href="#">Zoom</a>
+                    <div class="PB-range-slider-div">
+                        <label for="container-zoom"></label>
+                        <input type="range" min="1" max="10" value="1" step="1" class="PB-range-slider" id="container-zoom">
+                    </div>
+                </div>
+                <div class="border-b">
+                    <a rel="noopener noreferrer" href="#">Sort</a><br>
+                    <input type="radio" name="sorting" id="none" value="none" checked>
+                    <label class="text-sm" for="none">None</label><br>
+                    <input type="radio" name="sorting" id="first-node" value="first-node">
+                    <label class="text-sm" for="first-node">First Node is...</label><br>
+                    <input type="radio" name="sorting" id="last-node" value="last-node">
+                    <label class="text-sm" for="last-node">Last Node is...</label><br>
+                </div>
                 <a rel="noopener noreferrer" href="#">Migrations</a>
                 <a rel="noopener noreferrer" href="#">Appearance</a>
                 <a rel="noopener noreferrer" href="#">Mamba UI</a>
             </div>
         </div>
     </nav>
-</aside>
+</div>
 
-<div class="ml-auto" id="main-container"></div>
+<div class="inline-block overflow-y-scroll" id="main-container"></div>
 
 </body>
 </html>

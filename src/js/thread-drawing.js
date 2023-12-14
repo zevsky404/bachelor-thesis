@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import {getFirstNode, getLastNode} from "./tools"
 
 let getData = d3.json("./data/process_2023-12-05_16:22.json").then((response) => {
     return response;
@@ -93,12 +94,13 @@ getData.then((data) => {
         const node = g.selectAll(".node")
             .data(root.descendants())
             .enter().append("g")
-                .attr("class", d => "node" + (d.children ? " node-internal "
-                    : " node-leaf ") + d.id)
-                .attr("transform", d => `translate(${d.x}, ${d.y})`)
-                .attr("adu-types", d => reducePreds(d.data.preds))
-                .on("click", nodeClick);
-
+            .attr("class", d => "node" + (d.children ? " node-internal "
+                : " node-leaf ") + d.id)
+            .attr("transform", d => `translate(${d.x}, ${d.y})`)
+            .attr("adu-types", d => reducePreds(d.data.preds))
+            .attr("cluster-type", d => `${d.data.cluster_type}`)
+            .attr("cluster-number", d => `${d.data.cluster}`)
+            .on("click", nodeClick);
 
         node.append("circle")
             .attr("r", "2")
@@ -143,6 +145,10 @@ getData.then((data) => {
     }
     console.log(`Amount of successfully drawn trees: ${successCounter}`)
     console.log(`Amount of unsuccessfully drawn trees: ${errorCounter}`)
+    const graphs = document.getElementById("main-container").children;
+    for (let graph of graphs) {
+        console.log(getLastNode(graph));
+    }
 })
 
 
