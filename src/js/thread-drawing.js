@@ -1,7 +1,7 @@
 import * as d3 from "d3";
-import {getFirstNode, getLastNode} from "./tools"
+import {getFirstNode, getLastNode, displayClusterFirst} from "./tools"
 
-let getData = d3.json("./data/process_2023-12-05_16:22.json").then((response) => {
+let getData = d3.json("./data/process_2023-12-18_15:37.json").then((response) => {
     return response;
 });
 
@@ -30,19 +30,19 @@ function buildNodeWindow(pageXY, nodeAdus) {
     popup.className = "adu-popup";
     popup.style.background = "white";
     popup.style.opacity = "1";
-    popup.style.border = "0.5px solid black";
+    popup.style.border = "1px solid black";
     popup.style.borderRadius = "1px";
-    popup.style.padding = "2px";
-    popup.style.paddingRight = "3.5px";
+    popup.style.padding = "5px";
+    popup.style.paddingRight = "6px";
     popup.style.position = "absolute";
-    popup.style.fontSize = "5px";
+    popup.style.fontSize = "15px";
     popup.style.left = `${pageXY[0] + 5}px`;
     popup.style.top = `${pageXY[1] + 5}px`;
     popup.innerText = nodeAdus;
 
     let close = document.createElement("div");
-    close.style.width = "2px";
-    close.style.height = "2px";
+    close.style.width = "7px";
+    close.style.height = "7px";
     close.style.background = "red";
     close.style.position = "absolute";
     close.style.right = "1px";
@@ -68,8 +68,8 @@ getData.then((data) => {
             + " " + d.target.x + "," + d.target.y;
     };
 
-    const width = 100 - margin.left - margin.right;
-    const height = 100 - margin.top - margin.bottom;
+    const width = 300 - margin.left - margin.right;
+    const height = 300 - margin.top - margin.bottom;
 
     function buildTreeForThread(thread) {
         // hierarchy setup for root and links
@@ -82,9 +82,11 @@ getData.then((data) => {
         const links = root.links();
 
         const svg = d3.create("svg")
-            .attr("width", 100)
-            .attr("height", "100")
+            .attr("width", 300)
+            .attr("height", "400")
             .style("display", "inline-block")
+            .style("min-width", "300")
+            .style("min-height", "300");
 
         const g = svg.append("g")
             .attr("font-family", "sans-serif")
@@ -103,9 +105,9 @@ getData.then((data) => {
             .on("click", nodeClick);
 
         node.append("circle")
-            .attr("r", "2")
+            .attr("r", "5")
             .style("stroke", "black")
-            .style("stroke-width", "0.5")
+            .style("stroke-width", "1")
             .style("fill", d => { return d.data.cluster_type === "OP" ? colorOp(d.data.cluster) : colorComments(d.data.cluster) });
 
         const edge = g.selectAll(".edge")
@@ -113,7 +115,7 @@ getData.then((data) => {
             .enter().append("path")
             .attr("class", "edge")
             .style("stroke", "black")
-            .style("stroke-width", "0.5")
+            .style("stroke-width", "1")
             .style("fill", "none")
             .attr("d", diagonal);
 
@@ -145,11 +147,19 @@ getData.then((data) => {
     }
     console.log(`Amount of successfully drawn trees: ${successCounter}`)
     console.log(`Amount of unsuccessfully drawn trees: ${errorCounter}`)
-    const graphs = document.getElementById("main-container").children;
-    for (let graph of graphs) {
-        console.log(getLastNode(graph));
+
+
+    let allRadios = document.getElementsByName("clusters");
+    for (let radio of allRadios) {
+        radio.addEventListener("click", function () {
+            if (this.id.includes("f")) {
+                displayClusterFirst(parseInt(radio.value), "first");
+            } else if (this.id.includes("l")) {
+                displayClusterFirst(parseInt(radio.value), "last");
+            }
+        });
     }
-})
+});
 
 
 
